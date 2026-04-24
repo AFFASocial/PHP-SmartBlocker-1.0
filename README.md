@@ -2,13 +2,13 @@
 
 Just download the PHP_SmartBlocker_1.0_Installation_Guide.html and then click the file and it should open in your browser follow the instructions and DONE.
 
-Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Keep in mind that a real spammer human can solve the puzzle
-register and post spam, So I suggest you website have new user approval, posts approval or an option to make the site by invitation only whick Sngine Socual Network
-does all 3. The code was made due to the onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
+Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. ALso keep in mind that a real spammer "human" can solve the 
+puzzle register and post spam, So I suggest you website have new user approval, posts approval or an option to make the site by invitation only whick Sngine Socual 
+Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
 
 In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind the web is loaded with
 click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is those humans being paid to spam your
-website. An example you might get hundreds of fake visits per hour NONE WILL EVER GET THROUGHT except that 1% I would recommend every php website use this code period.
+website. An example you might get hundreds of fake visits per hour none will every get through except that 1% human spammer. I would recommend every php website use this code period.
 
 A lightweight, zero-dependency PHP bot protection system that stops scrapers, bots, and fake traffic dead in their tracks — all running locally on your server with no external APIs, no paid services, and zero ongoing cost.
 
