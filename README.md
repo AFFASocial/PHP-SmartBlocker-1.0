@@ -110,9 +110,10 @@ Banned IPs are stored in `blocked_ips.json` in your web root. This file is creat
 
 Free to use, modify and share.
 
-************************************************
+------------------------------------------------
+
 ** Most common solutions and their weaknesses **
-************************************************
+
 
 - **Cloudflare** — effective but you're dependent on a third party, costs money at scale, and can have false positives
 - **Fail2ban** — server level, requires root access, not available on shared hosting
