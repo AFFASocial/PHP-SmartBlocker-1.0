@@ -1,4 +1,4 @@
-# php SmartBlocker
+# PHP SmartBlocker 1.0
 PHP SmartBlocker 1.0 - Zero dependency attack and bot protection with drag-and-drop CAPTCHA
 
 I originally created this code for "Sngine Social Network" but this code can be used
