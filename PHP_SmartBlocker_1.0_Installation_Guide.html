@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHP SmartBlocker 1.0 &mdash; Installation Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{--bg:#0f1117;--surface:#1a1d27;--s2:#22263a;--border:#2e3347;--accent:#4f8ef7;--green:#34d399;--red:#f87171;--yellow:#fbbf24;--text:#e2e8f0;--muted:#64748b;--code-bg:#0d1117;--code-text:#c9d1d9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+nav{position:sticky;top:0;z-index:100;background:rgba(15,17,23,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;gap:28px;height:56px}
+.logo{font-family:'JetBrains Mono',monospace;font-size:.92rem;color:var(--accent);font-weight:500;white-space:nowrap}
+nav a{font-size:.82rem;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .15s}
+nav a:hover{color:var(--text)}
+.container{max-width:960px;margin:0 auto;padding:56px 40px 100px}
+.hero{background:linear-gradient(135deg,#1a1d27,#16192a);border:1px solid var(--border);border-radius:16px;padding:44px;margin-bottom:52px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(79,142,247,.07),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(124,92,252,.07),transparent 50%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:20px;padding:4px 12px;font-size:.74rem;color:var(--accent);margin-bottom:18px}
+.hero h1{font-size:2.3rem;font-weight:700;letter-spacing:-.5px;margin-bottom:10px}
+.hero h1 span{font-family:'JetBrains Mono',monospace;color:var(--accent)}
+.hero p{font-size:.95rem;color:var(--muted);max-width:580px;margin-bottom:0}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pill{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:.74rem;color:var(--muted)}
+.pill.g{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.2);color:var(--green)}
+section{margin-bottom:60px}
+h2{font-size:1.35rem;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-size:.95rem;font-weight:600;color:var(--accent);margin:24px 0 8px}
+p{color:#94a3b8;margin-bottom:12px;font-size:.9rem}
+.file-cards{display:grid;gap:10px;margin-bottom:20px}
+.file-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px}
+.fi{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+.fn{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--accent);font-weight:500}
+.fd{font-size:.8rem;color:var(--muted);margin-top:2px}
+.steps{display:grid;gap:20px}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 26px}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--accent);color:#fff;border-radius:7px;font-size:.78rem;font-weight:700;margin-bottom:8px}
+.step h3{margin:0 0 8px;font-size:.95rem;color:var(--text)}
+.code-wrap{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:12px 0}
+.code-wrap.full-file .code-scroll{max-height:520px}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:#161b22;border-bottom:1px solid var(--border);gap:10px}
+.code-filename{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copy-btn{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:.74rem;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap;line-height:1}
+.copy-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff}
+.code-scroll{max-height:380px;overflow:auto}
+.code-scroll::-webkit-scrollbar{width:5px;height:5px}
+.code-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+pre{padding:18px;font-family:'JetBrains Mono',monospace;font-size:.76rem;line-height:1.65;color:var(--code-text);white-space:pre;tab-size:4;margin:0}
+code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--s2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--accent)}
+.box{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:.85rem;border-left:3px solid}
+.box.info{background:rgba(79,142,247,.07);border-color:var(--accent);color:#93c5fd}
+.box.warn{background:rgba(251,191,36,.07);border-color:var(--yellow);color:#fde68a}
+.box.good{background:rgba(52,211,153,.07);border-color:var(--green);color:#6ee7b7}
+.box.bad{background:rgba(248,113,113,.07);border-color:var(--red);color:#fca5a5}
+table{width:100%;border-collapse:collapse;font-size:.83rem;margin:12px 0}
+th{background:var(--s2);color:var(--text);font-weight:600;padding:9px 13px;text-align:left;border-bottom:2px solid var(--border)}
+td{padding:9px 13px;border-bottom:1px solid var(--border);color:#94a3b8;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--accent)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.flow{display:flex;flex-direction:column;gap:0}
+.flow-step{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.flow-step:last-child{border-bottom:none}
+.flow-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--s2);border:1px solid var(--border);border-radius:50%;font-size:.72rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:2px}
+.flow-text{font-size:.87rem;color:#94a3b8}
+.flow-text strong{color:var(--text)}
+@media(max-width:640px){nav{padding:0 14px;gap:14px}.container{padding:28px 14px 80px}.hero{padding:24px 18px}.hero h1{font-size:1.5rem}.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">&#x1F6E1; PHP SmartBlocker 1.0</div>
+  <a href="#overview">Overview</a>
+  <a href="#files">Files</a>
+  <a href="#install">Install</a>
+  <a href="#code">Code</a>
+  <a href="#troubleshoot">Help</a>
+</nav>
+<div class="container">
+
+<div class="hero">
+  <div class="badge">&#x1F6E1; PHP SmartBlocker 1.0</div>
+  <h1 style="font-size:1.6rem;">PHP SmartBlocker Installation Guide <small style="font-size:0.85rem;color:var(--muted);font-weight:400;">v1.0</small></h1>
+  <p>PHP SmartBlocker is a zero-dependency PHP bot protection system featuring a drag-and-drop puzzle CAPTCHA, permanent IP banning, and automatic log rotation &mdash; all running locally on your server with no external APIs or paid services.</p>
+  <div class="pills">
+    <span class="pill g">&#x2713; No API calls</span>
+    <span class="pill g">&#x2713; No paid services</span>
+    <span class="pill g">&#x2713; Zero ongoing cost</span>
+    <span class="pill">PHP 7.4+</span>
+    <span class="pill">2 files to upload</span>
+    <span class="pill">Shared hosting friendly</span>
+  </div>
+</div>
+
+<section id="overview">
+  <h2>How It Works</h2>
+  <p>One line in <code>.htaccess</code> tells PHP to run <code>blocks.php</code> before every single page on your site. Every request is filtered in this order:</p>
+  <table>
+    <thead><tr><th>Step</th><th>Check</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Permanent IP ban list</td><td>Hard 403 &mdash; banned IPs rejected immediately</td></tr>
+      <tr><td>1</td><td>Empty user agent</td><td>Hard 403 &mdash; no UA means definitely a bot</td></tr>
+      <tr><td>2</td><td>Known good bots</td><td>Allow silently (Googlebot, Bingbot etc.)</td></tr>
+      <tr><td>3</td><td>Known bad bot UAs</td><td>Hard 403 &mdash; curl, scrapy, selenium etc.</td></tr>
+      <tr><td>4</td><td>Old Chrome (&lt;110)</td><td>Hard 403 &mdash; bot fingerprint</td></tr>
+      <tr><td>5</td><td>Puzzle CAPTCHA</td><td>Drag-and-drop challenge for all unverified visitors</td></tr>
+    </tbody>
+  </table>
+  <div class="box good">&#x2705; Once solved, a 24-hour cookie lets the visitor through freely. Bots can never solve the puzzle. Any spammer that gets through is a real human &mdash; not a bot.</div>
+
+  <h3>Visitor Experience</h3>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-num">1</div><div class="flow-text"><strong>First visit</strong> &mdash; Drag-and-drop puzzle appears. Takes about 5 seconds to solve.</div></div>
+    <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><strong>After solving</strong> &mdash; 24-hour cookie set. Visitor browses freely with no further interruption.</div></div>
+    <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>Next day</strong> &mdash; Cookie expires. Puzzle shows once more on first visit of the day.</div></div>
+    <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>3 wrong attempts</strong> &mdash; IP is permanently banned and written to <code>blocked_ips.json</code>.</div></div>
+  </div>
+</section>
+
+<section id="files">
+  <h2>Files Required</h2>
+  <p>Upload both PHP files to the same directory as your website root.</p>
+  <div class="file-cards">
+    <div class="file-card"><div class="fi">&#x2699;&#xFE0F;</div><div><div class="fn">blocks.php</div><div class="fd">Main bot blocker. Runs before every page via .htaccess auto-prepend. Handles all filtering, logging, CAPTCHA routing, and permanent IP bans.</div></div></div>
+    <div class="file-card"><div class="fi">&#x1F9E9;</div><div><div class="fn">verify_overlay.php</div><div class="fd">The drag-and-drop puzzle CAPTCHA page. 5 random landscape themes, random missing slot position. Bans IPs after 3 failed attempts. Sets 24-hour cookie on success.</div></div></div>
+  </div>
+  <div class="box info">&#x2139; <code>blocked_ips.json</code> and <code>alist.txt</code> are created automatically on first run. You do not need to create them.</div>
+
+  <h3>All Files at a Glance</h3>
+  <table>
+    <thead><tr><th>File</th><th>Purpose</th><th>Created by</th></tr></thead>
+    <tbody>
+      <tr><td>blocks.php</td><td>Main bot blocker</td><td>You upload this</td></tr>
+      <tr><td>verify_overlay.php</td><td>Puzzle CAPTCHA page</td><td>You upload this</td></tr>
+      <tr><td>alist.txt</td><td>Event log (blocked + CAPTCHA events)</td><td>Auto-created on first run</td></tr>
+      <tr><td>blocked_ips.json</td><td>Permanent IP ban list</td><td>Auto-created on first ban</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="install">
+  <h2>Installation Steps</h2>
+  <div class="box warn">&#x26A0; <strong>Paths &mdash; change to match your server.</strong> All paths in this guide use <code>/home/affasoci/public_html/</code> as an example. Replace <code>affasoci</code> with your own cPanel username. Find your exact path in cPanel &rarr; File Manager &rarr; navigate to public_html &rarr; the address bar shows your full path.</div>
+  <div class="steps">
+
+    <div class="step">
+      <div class="snum">1</div>
+      <h3>Upload the PHP Files</h3>
+      <p>Upload both files to your website root:</p><div class="code-wrap">
+  <div class="code-header"><span class="code-filename">Upload paths</span></div>
+  <div class="code-scroll"><pre>/home/affasoci/public_html/blocks.php
+/home/affasoci/public_html/verify_overlay.php</pre></div>
+</div>
+      <div class="box warn">&#x26A0; <strong>Change <code>affasoci</code> to your own cPanel username</strong> before uploading. For example if your username is <code>johndoe</code> your path would be <code>/home/johndoe/public_html/</code>. Find your exact path in cPanel &rarr; File Manager &rarr; the address bar shows the full path when you open public_html.</div>
+      <div class="box info">&#x2139; Both files must be in the same folder. <code>blocks.php</code> uses <code>__DIR__</code> to find <code>verify_overlay.php</code>.</div>
+    </div>
+
+    <div class="step">
+      <div class="snum">2</div>
+      <h3>Edit Your .htaccess File</h3>
+      <p>Open <code>.htaccess</code> in your website root and add this line. Create the file if it does not exist.</p><div class="code-wrap">
+  <div class="code-header"><span class="code-filename">.htaccess</span><button class="copy-btn" onclick="copyCode(this)"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>&nbsp;Copy</button></div>
+  <div class="code-scroll"><pre>php_value auto_prepend_file /home/affasoci/public_html/blocks.php</pre></div>
+</div>
+      <div class="box warn" style="margin-top:6px">&#x26A0; Replace <code>affasoci</code> with your own cPanel username to match your server path.</div>
+      <div class="box warn">&#x26A0; If you already have an <code>auto_prepend_file</code> line, replace it &mdash; do not have two.</div>
+    </div>
+
+    <div class="step">
+      <div class="snum">3</div>
+      <h3>Verify File Permissions</h3>
+      <p>The website root needs write permission so PHP can auto-create the log and ban files.</p>
+      <div class="box info">&#x2139; On shared hosting (cPanel) your public_html is typically already set to 755. No action needed unless you see permission errors.</div>
+    </div>
+
+    <div class="step">
+      <div class="snum">4</div>
+      <h3>Test the Installation</h3>
+      <p>Open your website in an incognito/private window. You should immediately see the drag-and-drop puzzle.</p>
+      <div class="two-col">
+        <div class="box good" style="margin:0">&#x2705; <strong>Working correctly:</strong><br>Puzzle appears on first visit<br>Drag works on desktop &amp; mobile<br>Site loads normally after solving<br>No puzzle on second visit (cookie)</div>
+        <div class="box bad" style="margin:0">&#x274C; <strong>Not working:</strong><br>Site loads with no puzzle<br>PHP error on every page<br>500 server error<br>Puzzle shows but submit fails</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="code">
+  <h2>Complete File Code</h2>
+  <p>Click <strong>Copy All</strong> on each block, paste into a new file, and save with the exact filename shown.</p>
+  <div class="box warn">&#x26A0; After copying each file, update the path <code>/home/affasoci/public_html/</code> inside the code to match your actual server path before uploading.</div>
+
+  <h3>blocks.php</h3><div class="code-wrap full-file">
+  <div class="code-header"><span class="code-filename">blocks.php &mdash; /home/affasoci/public_html/blocks.php</span><button class="copy-btn" onclick="copyById('blocks-code', this)"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>&nbsp;Copy All</button></div>
+  <div class="code-scroll"><pre id="blocks-code"></pre></div>
+</div>
+
+  <h3>verify_overlay.php</h3><div class="code-wrap full-file">
+  <div class="code-header"><span class="code-filename">verify_overlay.php &mdash; /home/affasoci/public_html/verify_overlay.php</span><button class="copy-btn" onclick="copyById('verify-code', this)"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>&nbsp;Copy All</button></div>
+  <div class="code-scroll"><pre id="verify-code"></pre></div>
+</div>
+</section>
+
+
+
+<section>
+  <h2>Log File (alist.txt)</h2>
+  <p>Every blocked request and CAPTCHA challenge is logged to <code>alist.txt</code>. Allowed traffic is not logged. The file auto-trims to 5,000 lines when it hits 1MB.</p><div class="code-wrap">
+  <div class="code-header"><span class="code-filename">alist.txt &mdash; example entries</span></div>
+  <div class="code-scroll"><pre>[2026-04-23 11:40:06] BLOCKED | BAD_UA:yandexbot | IP:5.255.231.195  | GET https://...
+[2026-04-23 11:39:27] CAPTCHA | CAPTCHA_ALL      | IP:61.170.53.35   | GET https://...
+[2026-04-23 11:40:06] BLOCKED | PERM_BAN         | IP:192.168.1.100  | GET https://...
+[2026-04-23 11:40:06] BLOCKED | OLD_CHROME:108   | IP:43.166.166.26  | GET https://...</pre></div>
+</div>
+</section>
+
+<section id="troubleshoot">
+  <h2>Troubleshooting</h2>
+  <table>
+    <thead><tr><th>Problem</th><th>Solution</th></tr></thead>
+    <tbody>
+      <tr><td>Puzzle never shows</td><td>Check .htaccess has the auto_prepend_file line. Verify blocks.php is uploaded to the correct directory.</td></tr>
+      <tr><td>500 error on all pages</td><td>Check PHP error log. Usually a missing file. Verify both PHP files uploaded completely without truncation.</td></tr>
+      <tr><td>Drag does not work</td><td>Open browser console for JS errors. Ensure verify_overlay.php was not truncated during upload.</td></tr>
+      <tr><td>Solved puzzle, still redirected</td><td>Check PHP sessions are working on your host. Check cookies are not blocked by browser settings.</td></tr>
+      <tr><td>Googlebot getting puzzle</td><td>Check the allowedBots array in blocks.php includes 'googlebot'.</td></tr>
+      <tr><td>Accidentally banned own IP</td><td>Delete blocked_ips.json via cPanel File Manager. PHP auto-creates a fresh one on next request.</td></tr>
+      <tr><td>AJAX requests breaking</td><td>Add your endpoint paths to the $skipCaptcha array in blocks.php.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:40px">Managing Bans (Shared Hosting)</h2>
+  <p>Since you are on shared hosting, use cPanel File Manager to manage bans.</p>
+  <div class="box info" style="margin-bottom:10px">
+    <strong>To clear ALL bans:</strong><br>
+    1. Open cPanel &rarr; File Manager<br>
+    2. Navigate to <code>/home/affasoci/public_html/</code><br>
+    3. Find <code>blocked_ips.json</code> &rarr; right-click &rarr; Delete<br>
+    4. PHP auto-creates a fresh empty one on the next request
+  </div>
+  <div class="box warn">
+    <strong>To remove a single IP ban:</strong><br>
+    1. Open <code>blocked_ips.json</code> in File Manager editor<br>
+    2. Find the IP entry block and delete it<br>
+    3. Make sure the JSON stays valid (no trailing commas)<br>
+    4. Click Save
+  </div>
+</section>
+
+<section>
+  <h2>Quick Reference</h2>
+  <h3>All File Locations</h3><div class="code-wrap">
+  <div class="code-header"><span class="code-filename">Paths</span></div>
+  <div class="code-scroll"><pre>/home/affasoci/public_html/blocks.php
+/home/affasoci/public_html/verify_overlay.php
+/home/affasoci/public_html/alist.txt            (auto-created - event log)
+/home/affasoci/public_html/blocked_ips.json     (auto-created - ban list)</pre></div>
+</div>
+  <div class="box warn" style="margin-top:6px">&#x26A0; Replace <code>affasoci</code> with your own cPanel username to match your server path.</div>
+  <h3>Disable Protection Temporarily</h3><div class="code-wrap">
+  <div class="code-header"><span class="code-filename">.htaccess &mdash; comment out to disable</span></div>
+  <div class="code-scroll"><pre># php_value auto_prepend_file /home/affasoci/public_html/blocks.php</pre></div>
+</div>
+  <div class="box warn" style="margin-top:6px">&#x26A0; Replace <code>affasoci</code> with your own cPanel username to match your server path.</div>
+</section>
+
+</div>
+<script>
+var BLOCKS  = "<?php\n/**\n * Bot/Scraper Block - blocks.php\n * No external API calls \u2014 all checks run locally with zero overhead.\n *\n * 0. Permanent IP ban check against blocked_ips.json\n * S. Secret token bypass for trusted tools (autoposter etc.)\n * 1. Blocks empty / missing user agents\n * 2. Whitelists legitimate search engine bots (Googlebot, DuckDuckBot etc.)\n * 3. Blocks known bad bots and scrapers by user agent string\n * 4. Blocks outdated Chrome versions used as bot fingerprints\n * 5. Math CAPTCHA challenge via verify_overlay.php for all human visitors\n *\n * Logs BLOCKED and CAPTCHA events to alist.txt \u2014 one line per entry.\n * Add to .htaccess: php_value auto_prepend_file /home/affasoci/public_html/blocks.php\n */\n\n// ---------------------------------------------------------------\n// SESSION \u2014 must be started before any CAPTCHA checks\n// ---------------------------------------------------------------\nif (session_status() === PHP_SESSION_NONE) {\n    session_start();\n}\n\n// ---------------------------------------------------------------\n// LOGGING \u2014 only logs blocked/captcha events, not allowed traffic\n// ---------------------------------------------------------------\n$logFile = '/home/affasoci/public_html/alist.txt';\nif (!is_writable($logFile) && !@touch($logFile)) {\n    $logFile = sys_get_temp_dir() . '/alist.txt';\n}\n\nfunction rotate_log(string $logFile): void {\n    if (!file_exists($logFile) || filesize($logFile) < 1048576) {\n        return; // Under 1MB \u2014 nothing to do\n    }\n    $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);\n    if (count($lines) > 5000) {\n        $trimmed = array_slice($lines, -5000); // Keep last 5000 lines\n        file_put_contents($logFile, implode(PHP_EOL, $trimmed) . PHP_EOL, LOCK_EX);\n    }\n}\nrotate_log($logFile);\n\nfunction writelog(string $logFile, string $status, string $reason, string $ip): void {\n    $date    = date('Y-m-d H:i:s');\n    $method  = $_SERVER['REQUEST_METHOD']  ?? '-';\n    $scheme  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';\n    $host    = $_SERVER['HTTP_HOST']       ?? '-';\n    $uri     = $_SERVER['REQUEST_URI']     ?? '-';\n    $fullUrl = $scheme . '://' . $host . $uri;\n    $ua      = $_SERVER['HTTP_USER_AGENT'] ?? 'NONE';\n    $referer = $_SERVER['HTTP_REFERER']    ?? '-';\n    $port    = $_SERVER['REMOTE_PORT']     ?? '-';\n\n    $line = \"[{$date}] {$status} | {$reason} | IP:{$ip} | {$method} {$fullUrl} | REF:{$referer} | PORT:{$port} | UA:{$ua}\" . PHP_EOL;\n    file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);\n}\n\n// ---------------------------------------------------------------\n// HELPER \u2014 check if visitor already passed CAPTCHA\n// Accepts either session flag or cookie (mirrors verify_overlay.php logic)\n// ---------------------------------------------------------------\nfunction already_verified(string $ip): bool {\n    if (!empty($_SESSION['verified_human']) && ($_SESSION['verified_ip'] ?? '') === $ip) {\n        return true;\n    }\n    if (!empty($_COOKIE['human_ticket']) && $_COOKIE['human_ticket'] === 'verified') {\n        return true;\n    }\n    if (!empty($_COOKIE['human_ticket_mobile']) && $_COOKIE['human_ticket_mobile'] === 'verified') {\n        return true;\n    }\n    return false;\n}\n\n// ---------------------------------------------------------------\n// HELPER \u2014 serve the CAPTCHA challenge and stop execution\n// ---------------------------------------------------------------\nfunction serve_captcha(string $logFile, string $reason, string $ip): void {\n    writelog($logFile, 'CAPTCHA', $reason, $ip);\n    require __DIR__ . '/verify_overlay.php';\n    exit;\n}\n\n// ---------------------------------------------------------------\n// SECRET TOKEN BYPASS \u2014 for trusted automated tools e.g. autoposter\n// Autoposter sends header: X-Autoposter-Token: <token> to bypass all checks silently\n// ---------------------------------------------------------------\n$secretToken = 'G0(k]5xH,fUZ6y@^;lsOT~cizYA{^eWQgj15hDldHiVqsgkbJW';\nif (($_SERVER['HTTP_X_AUTOPOSTER_TOKEN'] ?? '') === $secretToken) {\n    return; // Trusted request \u2014 skip everything silently\n}\n\n// ---------------------------------------------------------------\n// GET VISITOR IP \u2014 no Cloudflare, use REMOTE_ADDR directly\n// ---------------------------------------------------------------\n$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';\n$visitorIp = $_SERVER['REMOTE_ADDR']     ?? '0.0.0.0';\n\n// ---------------------------------------------------------------\n// 0. PERMANENT IP BAN \u2014 check blocked_ips.json first\n//    IPs land here after failing the puzzle 3 times.\n//    Checked before anything else \u2014 zero processing wasted on banned IPs.\n// ---------------------------------------------------------------\n$bannedFile = '/home/affasoci/public_html/blocked_ips.json';\nif (file_exists($bannedFile)) {\n    $bannedList = json_decode(file_get_contents($bannedFile), true) ?: [];\n    if (isset($bannedList[$visitorIp])) {\n        writelog($logFile, 'BLOCKED', 'PERM_BAN', $visitorIp);\n        http_response_code(403);\n        echo '<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Access Denied.</p></body></html>';\n        exit;\n    }\n}\n\n// ---------------------------------------------------------------\n// 1. BLOCK MISSING / EMPTY USER-AGENTS\n//    Hard 403 \u2014 bots with no UA can't solve a CAPTCHA anyway\n// ---------------------------------------------------------------\nif (trim($userAgent) === '') {\n    writelog($logFile, 'BLOCKED', 'EMPTY_UA', $visitorIp);\n    http_response_code(403);\n    echo '<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Access Denied.</p></body></html>';\n    exit;\n}\n\n// ---------------------------------------------------------------\n// 2. WHITELIST LEGITIMATE SEARCH ENGINE BOTS\n//    Let through silently \u2014 no logging needed for good bots\n// ---------------------------------------------------------------\n$allowedBots = [\n    'googlebot', 'google-inspectiontool', 'adsbot-google', 'mediapartners-google',\n    'bingbot', 'slurp', 'duckduckbot', 'facebot', 'facebookexternalhit',\n    'twitterbot', 'linkedinbot', 'applebot',\n];\n\n$uaLower = strtolower($userAgent);\n\nforeach ($allowedBots as $good) {\n    if (strpos($uaLower, $good) !== false) {\n        return;\n    }\n}\n\n// ---------------------------------------------------------------\n// 3. BLOCK KNOWN SCRAPERS / BOTS BY USER-AGENT\n//    Hard 403 \u2014 these are definitively non-human tools\n// ---------------------------------------------------------------\n$blockedAgents = [\n    'curl', 'wget', 'libwww', 'python', 'java/', 'ruby/', 'perl/',\n    'go-http', 'httpclient', 'okhttp', 'axios', 'node-fetch',\n    'scrapy', 'mechanize', 'phantomjs', 'headlesschrome', 'selenium',\n    'puppeteer', 'playwright', 'htmlunit', 'nutch',\n    'ahrefsbot', 'semrushbot', 'dotbot', 'mj12bot', 'blexbot',\n    'yandexbot', 'baiduspider', 'sogou', 'exabot', 'sistrix',\n    'rogerbot', 'bytespider', 'petalbot', 'zgrab', 'masscan',\n    'nmap', 'nikto', 'sqlmap', 'dirbuster', 'nuclei',\n    'bot', 'crawler', 'spider', 'scraper', 'fetcher', 'harvest',\n    'scan', 'exploit', 'inject', 'attack',\n];\n\nforeach ($blockedAgents as $agent) {\n    if (strpos($uaLower, $agent) !== false) {\n        writelog($logFile, 'BLOCKED', 'BAD_UA:' . $agent, $visitorIp);\n        http_response_code(403);\n        echo '<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Access Denied.</p></body></html>';\n        exit;\n    }\n}\n\n// ---------------------------------------------------------------\n// 4. BLOCK OUTDATED CHROME VERSIONS \u2014 bot fingerprint\n//    No real user runs Chrome below 110 in 2026.\n//    Scrapers fake old Chrome UAs to avoid detection.\n// ---------------------------------------------------------------\nif (preg_match('/Chrome\\/(\\d+)\\./', $userAgent, $matches)) {\n    $chromeMajor = (int) $matches[1];\n    if ($chromeMajor < 110) {\n        writelog($logFile, 'BLOCKED', 'OLD_CHROME:' . $chromeMajor, $visitorIp);\n        http_response_code(403);\n        echo '<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Access Denied.</p></body></html>';\n        exit;\n    }\n}\n\n// ---------------------------------------------------------------\n// 5. MATH CAPTCHA \u2014 challenge ALL visitors on first visit\n//    Once solved, the session + cookie lets them through freely.\n//    Skip AJAX endpoints so background requests don't get interrupted.\n// ---------------------------------------------------------------\n$skipCaptcha = ['/includes/ajax/data/live.php', '/includes/ajax/chat/live.php'];\n$currentPath = strtok($_SERVER['REQUEST_URI'] ?? '', '?');\n\nif (!already_verified($visitorIp) && !in_array($currentPath, $skipCaptcha, true)) {\n    serve_captcha($logFile, 'CAPTCHA_ALL', $visitorIp);\n}\n";
+var VERIFY  = "<?php\n// verify_overlay.php - Drag & Drop Puzzle CAPTCHA Challenge\n// Included by blocks.php when a visitor needs to verify they are human.\n// On success: sets $_SESSION['verified_human'] = true and redirects back.\n\nif (session_status() === PHP_SESSION_NONE) { session_start(); }\n\n$error    = '';\n$verified = false;\n\n// --- Helper: get real visitor IP ---\nfunction overlay_get_ip() {\n    foreach (['HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR'] as $k) {\n        if (!empty($_SERVER[$k])) {\n            $ip = trim(explode(',', $_SERVER[$k])[0]);\n            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {\n                return $ip;\n            }\n        }\n    }\n    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';\n}\n\n// --- Helper: permanently ban IP into blocked_ips.json ---\nfunction overlay_ban_ip($ip, $reason) {\n    $file    = __DIR__ . '/blocked_ips.json';\n    $blocked = [];\n    if (file_exists($file)) {\n        $blocked = json_decode(file_get_contents($file), true) ?: [];\n    }\n    $blocked[$ip] = [\n        'blocked_at' => date('Y-m-d H:i:s'),\n        'reason'     => $reason,\n        'uri'        => $_SERVER['REQUEST_URI'] ?? '',\n    ];\n    file_put_contents($file, json_encode($blocked, JSON_PRETTY_PRINT), LOCK_EX);\n}\n\n$visitor_ip   = overlay_get_ip();\n$max_attempts = 3;\n\n// --- APCu fail counter ---\nfunction overlay_get_fails($ip) {\n    $val = apcu_fetch(\"captcha_fails:{$ip}\");\n    return $val === false ? 0 : (int)$val;\n}\nfunction overlay_set_fails($ip, $count) {\n    apcu_store(\"captcha_fails:{$ip}\", $count, 86400);\n}\nfunction overlay_clear_fails($ip) {\n    apcu_delete(\"captcha_fails:{$ip}\");\n}\n\n// --- Generate puzzle config if not set ---\n// Puzzle: a 300x150 image split into 3 columns, user drags the missing piece into the correct slot\n// We store the correct slot index (0,1,2) server-side\nif (!isset($_SESSION['puzzle_slot'])) {\n    $_SESSION['puzzle_slot']  = rand(0, 2); // which of the 3 slots is the missing piece\n    $_SESSION['puzzle_theme'] = rand(0, 4); // which visual theme/pattern\n}\n\n// --- Handle CAPTCHA submission ---\nif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['puzzle_answer'])) {\n    $submitted = intval($_POST['puzzle_answer']);\n    $expected  = isset($_SESSION['puzzle_slot']) ? intval($_SESSION['puzzle_slot']) : -1;\n\n    if ($expected !== -1 && $submitted === $expected) {\n        overlay_clear_fails($visitor_ip);\n        unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme'], $_SESSION['already_logged']);\n\n        $_SESSION['verified_human'] = true;\n        $_SESSION['verified_ip']    = $visitor_ip;\n\n        $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')\n                    || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https'\n                    || ($_SERVER['SERVER_PORT'] ?? '') === '443';\n\n        setcookie('human_ticket', 'verified', [\n            'expires'  => time() + 86400,\n            'path'     => '/',\n            'httponly' => true,\n            'secure'   => $is_https,\n            'samesite' => 'Lax',\n        ]);\n        setcookie('human_ticket_mobile', 'verified', [\n            'expires'  => time() + 86400,\n            'path'     => '/',\n            'httponly' => false,\n            'secure'   => $is_https,\n            'samesite' => 'Lax',\n        ]);\n\n        $redirect = htmlspecialchars($_SESSION['blocked_uri'] ?? '/', ENT_QUOTES, 'UTF-8');\n        unset($_SESSION['blocked_uri']);\n        header(\"Refresh: 0; url=\" . $redirect);\n        exit;\n\n    } else {\n        $current_fails = overlay_get_fails($visitor_ip) + 1;\n        overlay_set_fails($visitor_ip, $current_fails);\n        $fails_left = $max_attempts - $current_fails;\n\n        if ($current_fails >= $max_attempts) {\n            overlay_ban_ip($visitor_ip, \"CAPTCHA: Failed $max_attempts times\");\n            header('HTTP/1.1 403 Forbidden');\n            die(\"<h2 style='font-family:sans-serif;text-align:center;margin-top:20%;color:#c0392b'>\n                 \ud83d\udeab Access Denied<br>\n                 <small style='color:#666;font-size:0.8rem'>Too many failed verification attempts.</small>\n                 </h2>\");\n        }\n\n        $error = \"Incorrect. \" . $fails_left . \" attempt\" . ($fails_left === 1 ? '' : 's') . \" remaining.\";\n        unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme']);\n        $_SESSION['puzzle_slot']  = rand(0, 2);\n        $_SESSION['puzzle_theme'] = rand(0, 4);\n    }\n}\n\nif (empty($_SESSION['blocked_uri'])) {\n    $_SESSION['blocked_uri'] = $_SERVER['REQUEST_URI'] ?? '/';\n}\n\n$correctSlot  = (int) $_SESSION['puzzle_slot'];\n$puzzleTheme  = (int) $_SESSION['puzzle_theme'];\n\n// Puzzle themes \u2014 each is a set of SVG shapes/colors that make a recognizable image\n// The missing piece slot is cut out and shown separately for dragging\n$themes = [\n    // 0: Sunset landscape\n    ['bg' => '#1a1a2e', 'name' => 'night sky', 'accent' => '#e94560'],\n    // 1: Ocean waves\n    ['bg' => '#0f3460', 'name' => 'ocean', 'accent' => '#16213e'],\n    // 2: Forest\n    ['bg' => '#1b4332', 'name' => 'forest', 'accent' => '#40916c'],\n    // 3: Desert\n    ['bg' => '#c9784a', 'name' => 'desert', 'accent' => '#e9b872'],\n    // 4: Mountain\n    ['bg' => '#2d3561', 'name' => 'mountain', 'accent' => '#a8dadc'],\n];\n$theme = $themes[$puzzleTheme];\n?><!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Security Check</title>\n    <style>\n        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');\n\n        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n\n        body {\n            font-family: 'DM Sans', sans-serif;\n            background: #0d0d1a;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            min-height: 100vh;\n            padding: 20px;\n            background-image:\n                radial-gradient(ellipse at 20% 50%, rgba(99,51,255,0.15) 0%, transparent 60%),\n                radial-gradient(ellipse at 80% 20%, rgba(233,69,96,0.1) 0%, transparent 50%);\n        }\n\n        .card {\n            background: rgba(255,255,255,0.04);\n            border: 1px solid rgba(255,255,255,0.1);\n            border-radius: 20px;\n            padding: 36px 32px;\n            max-width: 440px;\n            width: 100%;\n            text-align: center;\n            backdrop-filter: blur(20px);\n            box-shadow: 0 25px 60px rgba(0,0,0,0.5);\n        }\n\n        .lock-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, #6333ff, #e94560);\n            border-radius: 14px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin: 0 auto 18px;\n            font-size: 22px;\n        }\n\n        h1 {\n            font-size: 1.35rem;\n            font-weight: 600;\n            color: #fff;\n            margin-bottom: 6px;\n            letter-spacing: -0.3px;\n        }\n\n        p.subtitle {\n            font-size: 0.88rem;\n            color: rgba(255,255,255,0.45);\n            margin-bottom: 28px;\n            line-height: 1.5;\n        }\n\n        .puzzle-wrapper {\n            background: rgba(0,0,0,0.3);\n            border: 1px solid rgba(255,255,255,0.08);\n            border-radius: 14px;\n            padding: 20px;\n            margin-bottom: 22px;\n        }\n\n        .puzzle-instruction {\n            font-size: 0.8rem;\n            color: rgba(255,255,255,0.4);\n            text-transform: uppercase;\n            letter-spacing: 1.2px;\n            margin-bottom: 16px;\n        }\n\n        /* The main puzzle image with a gap */\n        .puzzle-board {\n            display: flex;\n            gap: 3px;\n            border-radius: 10px;\n            overflow: hidden;\n            margin-bottom: 16px;\n            height: 100px;\n            position: relative;\n        }\n\n        .puzzle-piece {\n            flex: 1;\n            border-radius: 0;\n            position: relative;\n            overflow: hidden;\n        }\n\n        .puzzle-piece canvas {\n            display: block;\n            width: 100%;\n            height: 100%;\n        }\n\n        /* Drop zone - the missing slot */\n        .drop-zone {\n            flex: 1;\n            border: 2px dashed rgba(99,51,255,0.6);\n            border-radius: 4px;\n            background: rgba(99,51,255,0.08);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            transition: all 0.2s;\n            position: relative;\n        }\n\n        .drop-zone.drag-over {\n            border-color: #6333ff;\n            background: rgba(99,51,255,0.2);\n            transform: scale(1.02);\n        }\n\n        .drop-zone.correct {\n            border-color: #40916c;\n            background: rgba(64,145,108,0.2);\n        }\n\n        .drop-zone-label {\n            font-size: 0.7rem;\n            color: rgba(255,255,255,0.25);\n            letter-spacing: 0.5px;\n        }\n\n        /* The draggable piece */\n        .drag-area {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 12px;\n            margin-bottom: 4px;\n        }\n\n        .drag-label {\n            font-size: 0.78rem;\n            color: rgba(255,255,255,0.35);\n        }\n\n        .draggable-piece {\n            width: 80px;\n            height: 100px;\n            border-radius: 8px;\n            cursor: grab;\n            border: 2px solid rgba(99,51,255,0.5);\n            overflow: hidden;\n            box-shadow: 0 4px 20px rgba(99,51,255,0.3);\n            transition: transform 0.15s, box-shadow 0.15s;\n            flex-shrink: 0;\n        }\n\n        .draggable-piece:hover {\n            transform: translateY(-2px) scale(1.03);\n            box-shadow: 0 8px 28px rgba(99,51,255,0.45);\n        }\n\n        .draggable-piece:active {\n            cursor: grabbing;\n            transform: scale(0.97);\n        }\n\n        .draggable-piece canvas {\n            display: block;\n            width: 100%;\n            height: 100%;\n        }\n\n        /* Touch drag visual feedback */\n        .dragging-ghost {\n            position: fixed;\n            pointer-events: none;\n            z-index: 9999;\n            opacity: 0.85;\n            transform: translate(-50%, -50%) scale(1.05);\n            border-radius: 8px;\n            overflow: hidden;\n            box-shadow: 0 12px 40px rgba(0,0,0,0.5);\n            display: none;\n            width: 80px;\n            height: 100px;\n        }\n\n        .dragging-ghost canvas {\n            display: block;\n            width: 100%;\n            height: 100%;\n        }\n\n        .error-msg {\n            background: rgba(233,69,96,0.12);\n            border: 1px solid rgba(233,69,96,0.3);\n            color: #e94560;\n            border-radius: 8px;\n            padding: 10px 14px;\n            font-size: 0.85rem;\n            margin-bottom: 16px;\n        }\n\n        .footer-note {\n            margin-top: 20px;\n            font-size: 0.73rem;\n            color: rgba(255,255,255,0.2);\n        }\n\n        /* Hidden form */\n        #verify-form { display: none; }\n\n        /* Success overlay */\n        .success-flash {\n            display: none;\n            position: fixed;\n            inset: 0;\n            background: rgba(64,145,108,0.15);\n            z-index: 100;\n            align-items: center;\n            justify-content: center;\n            font-size: 3rem;\n        }\n\n        @media (max-width: 480px) {\n            .card { padding: 24px 18px; }\n            h1 { font-size: 1.1rem; }\n            .puzzle-board { height: 80px; }\n            .draggable-piece { width: 65px; height: 80px; }\n            .dragging-ghost { width: 65px; height: 80px; }\n        }\n    </style>\n</head>\n<body>\n\n<div class=\"success-flash\" id=\"successFlash\">\u2713</div>\n\n<div class=\"card\">\n    <div class=\"lock-icon\">\ud83d\udd12</div>\n    <h1>Quick Security Check</h1>\n    <p class=\"subtitle\">Drag the missing piece into the correct position to continue.</p>\n\n    <?php if (!empty($error)): ?>\n        <div class=\"error-msg\">\u274c <?= htmlspecialchars($error) ?></div>\n    <?php endif; ?>\n\n    <div class=\"puzzle-wrapper\">\n        <div class=\"puzzle-instruction\">Complete the image</div>\n\n        <div class=\"puzzle-board\" id=\"puzzleBoard\">\n            <!-- Slots 0, 1, 2 rendered by JS \u2014 correct slot becomes drop zone -->\n        </div>\n\n        <div class=\"drag-area\">\n            <div class=\"drag-label\">Drag this piece \u2192</div>\n            <div class=\"draggable-piece\" id=\"draggablePiece\" draggable=\"true\">\n                <canvas id=\"pieceCanvas\"></canvas>\n            </div>\n        </div>\n    </div>\n\n    <form method=\"POST\" action=\"\" id=\"verify-form\">\n        <input type=\"hidden\" name=\"puzzle_answer\" id=\"puzzleAnswer\" value=\"\">\n    </form>\n\n    <p class=\"footer-note\">This check protects the site from automated bots.</p>\n</div>\n\n<!-- Ghost element for touch drag -->\n<div class=\"dragging-ghost\" id=\"draggingGhost\">\n    <canvas id=\"ghostCanvas\"></canvas>\n</div>\n\n<script>\n(function() {\n    const CORRECT_SLOT  = <?= $correctSlot ?>;\n    const THEME_INDEX   = <?= $puzzleTheme ?>;\n    const BOARD_COLS    = 3;\n\n    // \u2500\u2500 Drawing helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    const themes = [\n        { sky: '#1a1a2e', horizon: '#e94560', ground: '#16213e', star: true  }, // night\n        { sky: '#0f3460', horizon: '#533483', ground: '#16213e', star: false }, // ocean\n        { sky: '#1b4332', horizon: '#40916c', ground: '#081c15', star: false }, // forest\n        { sky: '#c9784a', horizon: '#e9b872', ground: '#7f4f24', star: false }, // desert\n        { sky: '#2d3561', horizon: '#a8dadc', ground: '#1d3557', star: true  }, // mountain\n    ];\n    const T = themes[THEME_INDEX];\n\n    function drawSlice(ctx, sliceIndex, totalSlices, w, h) {\n        const sliceW = w / totalSlices;\n        const ox = sliceIndex * sliceW; // x offset within full image\n\n        // Sky gradient\n        const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.65);\n        skyGrad.addColorStop(0, T.sky);\n        skyGrad.addColorStop(1, T.horizon);\n        ctx.fillStyle = skyGrad;\n        ctx.fillRect(0, 0, w, h * 0.65);\n\n        // Ground\n        const gndGrad = ctx.createLinearGradient(0, h * 0.65, 0, h);\n        gndGrad.addColorStop(0, T.horizon);\n        gndGrad.addColorStop(1, T.ground);\n        ctx.fillStyle = gndGrad;\n        ctx.fillRect(0, h * 0.65, w, h * 0.35);\n\n        // Stars / dots\n        if (T.star) {\n            ctx.fillStyle = 'rgba(255,255,255,0.7)';\n            // Deterministic star positions based on slice\n            for (let i = 0; i < 8; i++) {\n                const sx = ((ox * 7 + i * 37 + sliceIndex * 13) % (sliceW * 0.9));\n                const sy = ((ox * 3 + i * 19 + sliceIndex * 7)  % (h * 0.55));\n                const r  = (i % 3 === 0) ? 1.5 : 1;\n                ctx.beginPath();\n                ctx.arc(sx, sy, r, 0, Math.PI * 2);\n                ctx.fill();\n            }\n        }\n\n        // Horizon shapes (mountains / waves / trees based on theme)\n        ctx.fillStyle = T.ground;\n        ctx.beginPath();\n        if (THEME_INDEX === 2 || THEME_INDEX === 4) {\n            // Mountains / trees \u2014 triangles\n            const peaks = [\n                { x: -ox * 0.3,           y: h * 0.45, w: sliceW * 1.1 },\n                { x: sliceW * 0.5 - ox * 0.1, y: h * 0.38, w: sliceW * 0.8 },\n            ];\n            peaks.forEach(p => {\n                ctx.beginPath();\n                ctx.moveTo(p.x, h * 0.65);\n                ctx.lineTo(p.x + p.w / 2, p.y);\n                ctx.lineTo(p.x + p.w, h * 0.65);\n                ctx.closePath();\n                ctx.fillStyle = THEME_INDEX === 4 ? '#1d3557' : '#2d6a4f';\n                ctx.fill();\n            });\n        } else {\n            // Waves / dunes \u2014 curves\n            ctx.beginPath();\n            ctx.moveTo(0, h * 0.65);\n            const freq = THEME_INDEX === 1 ? 0.04 : 0.02;\n            for (let x = 0; x <= sliceW; x++) {\n                const y = h * 0.65 + Math.sin((x + ox) * freq * Math.PI) * (h * 0.06);\n                ctx.lineTo(x, y);\n            }\n            ctx.lineTo(sliceW, h);\n            ctx.lineTo(0, h);\n            ctx.closePath();\n            ctx.fillStyle = T.ground;\n            ctx.fill();\n        }\n\n        // Subtle vertical separator line\n        ctx.strokeStyle = 'rgba(255,255,255,0.06)';\n        ctx.lineWidth = 1;\n        ctx.beginPath();\n        ctx.moveTo(w - 0.5, 0);\n        ctx.lineTo(w - 0.5, h);\n        ctx.stroke();\n    }\n\n    // \u2500\u2500 Build board \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    const board      = document.getElementById('puzzleBoard');\n    const pieceEl    = document.getElementById('draggablePiece');\n    const pieceCanvas= document.getElementById('pieceCanvas');\n    const ghostCanvas= document.getElementById('ghostCanvas');\n    const ghost      = document.getElementById('draggingGhost');\n\n    // Board piece height from CSS\n    const PIECE_H = 100;\n\n    function buildBoard() {\n        board.innerHTML = '';\n\n        for (let i = 0; i < BOARD_COLS; i++) {\n            if (i === CORRECT_SLOT) {\n                // Drop zone\n                const dz = document.createElement('div');\n                dz.className = 'drop-zone';\n                dz.dataset.slot = i;\n                dz.innerHTML = '<span class=\"drop-zone-label\">Drop here</span>';\n                board.appendChild(dz);\n\n                dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });\n                dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-over'));\n                dz.addEventListener('drop',      e   => { e.preventDefault(); handleDrop(i, dz); });\n            } else {\n                // Filled slice\n                const wrap = document.createElement('div');\n                wrap.className = 'puzzle-piece';\n                const c = document.createElement('canvas');\n                wrap.appendChild(c);\n                board.appendChild(wrap);\n\n                // Size canvas to actual rendered size\n                requestAnimationFrame(() => {\n                    const W = wrap.offsetWidth;\n                    const H = wrap.offsetHeight || PIECE_H;\n                    c.width  = W;\n                    c.height = H;\n                    const ctx = c.getContext('2d');\n                    drawSlice(ctx, i, BOARD_COLS, W, H);\n                });\n            }\n        }\n    }\n\n    // Draw the draggable piece & ghost\n    function drawDraggablePiece() {\n        requestAnimationFrame(() => {\n            const W = pieceEl.offsetWidth  || 80;\n            const H = pieceEl.offsetHeight || PIECE_H;\n\n            [pieceCanvas, ghostCanvas].forEach(c => {\n                c.width  = W;\n                c.height = H;\n                const ctx = c.getContext('2d');\n                drawSlice(ctx, CORRECT_SLOT, BOARD_COLS, W, H);\n            });\n        });\n    }\n\n    buildBoard();\n    drawDraggablePiece();\n\n    // \u2500\u2500 Drag & Drop (desktop) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    pieceEl.addEventListener('dragstart', e => {\n        e.dataTransfer.setData('text/plain', 'piece');\n        e.dataTransfer.effectAllowed = 'move';\n    });\n\n    function handleDrop(slotIndex, dropZone) {\n        if (slotIndex !== CORRECT_SLOT) return;\n        submitAnswer(slotIndex, dropZone);\n    }\n\n    // \u2500\u2500 Touch drag (mobile) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    let touchActive = false;\n\n    pieceEl.addEventListener('touchstart', e => {\n        touchActive = true;\n        ghost.style.display = 'block';\n        movGhost(e.touches[0]);\n    }, { passive: true });\n\n    document.addEventListener('touchmove', e => {\n        if (!touchActive) return;\n        e.preventDefault();\n        movGhost(e.touches[0]);\n        highlightDropZones(e.touches[0]);\n    }, { passive: false });\n\n    document.addEventListener('touchend', e => {\n        if (!touchActive) return;\n        touchActive = false;\n        ghost.style.display = 'none';\n        const touch = e.changedTouches[0];\n        const el = document.elementFromPoint(touch.clientX, touch.clientY);\n        const dz = el ? el.closest('.drop-zone') : null;\n        if (dz) {\n            const slot = parseInt(dz.dataset.slot);\n            submitAnswer(slot, dz);\n        }\n        clearDropHighlights();\n    });\n\n    function movGhost(touch) {\n        ghost.style.left = touch.clientX + 'px';\n        ghost.style.top  = touch.clientY + 'px';\n    }\n\n    function highlightDropZones(touch) {\n        document.querySelectorAll('.drop-zone').forEach(dz => {\n            const r = dz.getBoundingClientRect();\n            const over = touch.clientX >= r.left && touch.clientX <= r.right\n                      && touch.clientY >= r.top  && touch.clientY <= r.bottom;\n            dz.classList.toggle('drag-over', over);\n        });\n    }\n\n    function clearDropHighlights() {\n        document.querySelectorAll('.drop-zone').forEach(dz => dz.classList.remove('drag-over'));\n    }\n\n    // \u2500\u2500 Submit \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    function submitAnswer(slot, dropZone) {\n        dropZone.classList.remove('drag-over');\n        dropZone.classList.add('correct');\n        dropZone.innerHTML = '';\n\n        // Place the piece visually in the slot\n        const c = document.createElement('canvas');\n        dropZone.appendChild(c);\n        const W = dropZone.offsetWidth;\n        const H = dropZone.offsetHeight || PIECE_H;\n        c.width  = W;\n        c.height = H;\n        drawSlice(c.getContext('2d'), CORRECT_SLOT, BOARD_COLS, W, H);\n\n        // Hide the draggable piece\n        pieceEl.style.opacity = '0';\n        pieceEl.style.pointerEvents = 'none';\n\n        // Flash success then submit\n        const flash = document.getElementById('successFlash');\n        flash.style.display = 'flex';\n        setTimeout(() => {\n            document.getElementById('puzzleAnswer').value = slot;\n            document.getElementById('verify-form').submit();\n        }, 400);\n    }\n\n    // Redraw on resize\n    window.addEventListener('resize', () => {\n        buildBoard();\n        drawDraggablePiece();\n    });\n})();\n<\/script>\n</body>\n</html>\n<?php exit; ?>\n";
+window.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('blocks-code').textContent  = BLOCKS;
+  document.getElementById('verify-code').textContent  = VERIFY;
+});
+
+function doCopy(text, btn) {
+  var origHTML = btn.innerHTML;
+  function onSuccess() {
+    btn.classList.add('copied');
+    btn.textContent = '✓ Copied!';
+    setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = origHTML; }, 2000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(function() { fallbackCopy(text, btn, onSuccess); });
+  } else {
+    fallbackCopy(text, btn, onSuccess);
+  }
+}
+function fallbackCopy(text, btn, onSuccess) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); onSuccess(); } catch(e) { btn.textContent = 'Select manually'; }
+  document.body.removeChild(ta);
+}
+function copyCode(btn) { doCopy(btn.closest('.code-wrap').querySelector('pre').textContent, btn); }
+function copyById(id, btn) { doCopy(document.getElementById(id).textContent, btn); }
+</script>
+</body>
+</html>
