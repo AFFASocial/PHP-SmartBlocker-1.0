@@ -109,3 +109,26 @@ Banned IPs are stored in `blocked_ips.json` in your web root. This file is creat
 ## License
 
 Free to use, modify and share.
+
+**Most common solutions and their weaknesses:**
+
+- **Cloudflare** — effective but you're dependent on a third party, costs money at scale, and can have false positives
+- **Fail2ban** — server level, requires root access, not available on shared hosting
+- **ModSecurity** — powerful but complex to configure, requires server access
+- **reCAPTCHA** — depends on Google, privacy concerns, bypassable by humans
+- **IP blocklists** — reactive, always behind, VPNs bypass them instantly
+- **Country blocking** — crude, catches legitimate users, VPNs bypass it
+- **Wordfence/security plugins** — WordPress specific, heavy, database dependent
+
+**What makes PHP SmartBlocker exceptional:**
+
+- **Proactive not reactive** — doesn't try to identify bad traffic, requires proof of humanity
+- **Zero dependencies** — nothing to break, nothing to pay for, nothing to maintain
+- **Shared hosting friendly** — works where most solutions don't
+- **Puzzle CAPTCHA** — drag and drop is genuinely one of the hardest challenges for automated tools
+- **Layered defense** — multiple checks in the right order, cheapest first
+- **Proven in production** — real results on a live site
+
+The philosophy behind it is what makes it special — instead of building bigger walls against known threats, it simply requires everyone to prove they are human. That approach doesn't need updating as new threats emerge.
+
+AFFA Social https://www.affasocial.com
