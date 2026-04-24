@@ -1,56 +1,12 @@
 # PHP SmartBlocker 1.0
-PHP SmartBlocker 1.0 - Zero dependency attack and bot protection with drag-and-drop CAPTCHA
 
-I originally created this code for "Sngine Social Network" but this code can be used
-on any PHP website.  For Sngine users thius is a must have for you hosted website.
+Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Keep in mind that a real spammer human can solve the puzzle
+register and post spam, So I suggest you website have new user approval, Posts approval or an option to make the site by invitation only whick Sngine Socual Network
+does all of this. The code was made due to the onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
 
-Just download the RAW file PHP_SmartBlocker_1.0_Installation_Guide.html then click it to
-open it in your browser, thenj ust follow the installation guide and in minutes you will
-competely block all bad attacks, scrapers, and unwanted visitors to your website.
-
-Universal protection:
-
-Works on any PHP site ✅
-Zero external dependencies ✅
-Zero ongoing cost ✅
-Two files only ✅
-One .htaccess line ✅
-
-What it stops:
-
-All automated bots ✅
-All scrapers ✅
-All content theft ✅
-All fake traffic ✅
-GA noise ✅
-Server resource abuse ✅
-
-What it allows:
-
-Real humans ✅
-Google crawling freely ✅
-Legitimate traffic ✅
-
-Real world proven results:
-
-Server at 2% CPU ✅
-GA traffic clean ✅
-Zero bot registrations ✅
-Zero scraping ✅
-
-Combined with invitation only on my website
-
-Zero bot spam ✅
-Zero human spam ✅
-Trusted community only ✅
-
-The code does exactly what it was designed to do, costs nothing, requires no maintenance, works on any PHP site, and has been proven in production.
-
-One thing to note that only a human who sollves the puzzle and registers can then post spam. In my case I made registration Invitation only so no
-one without an invitation code can register thus putting and end to the constant ATTACKS all dead in the water.
-
-
-# PHP SmartBlocker 1.0
+In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Heep in mind they the web is loaded with
+click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is thos humans being paid to spam your
+website. An example you might get hundreds of fake visits per hour NONE WILL EVER GET THROUGHT except that 1% I would recomment every php website use this code period.
 
 A lightweight, zero-dependency PHP bot protection system that stops scrapers, bots, and fake traffic dead in their tracks — all running locally on your server with no external APIs, no paid services, and zero ongoing cost.
 
@@ -90,12 +46,24 @@ All blocked requests and CAPTCHA challenges are logged to alist.txt with full de
 
 - PHP 7.4 or higher
 - Apache with .htaccess support
+- APCu PHP extension enabled (see instructions below)
 - Two files uploaded to your web root
 - One line added to .htaccess
 
-## Optional
+## Enabling APCu in cPanel
 
-- APCu enabled — only needed for the 3-strike permanent IP ban counter. If APCu is not available everything else works perfectly
+APCu is required for the 3-strike permanent IP ban counter. Without it the puzzle still works but failed attempts won't be tracked per IP.
+
+1. Log into cPanel
+2. Go to Software → Select PHP Version
+3. Make sure you are on the correct PHP version your site uses
+4. Click PHP Extensions
+5. Find apcu in the list and check the box to enable it
+6. Click Save
+
+If you do not see APCu in the list contact your hosting provider and ask them to enable the APCu PHP extension for your account.
+
+> **Note:** Make sure you enable APCu on the same PHP version your site is actually running. You can verify your PHP version in cPanel → Select PHP Version → the current version is shown at the top.
 
 ## Files
 
@@ -104,15 +72,35 @@ All blocked requests and CAPTCHA challenges are logged to alist.txt with full de
 
 ## Installation
 
-Add this one line to your .htaccess file:
+1. Upload both files to your website root directory
+2. Enable APCu in cPanel as described above
+3. Add this one line to your .htaccess file:
 
 ```
 php_value auto_prepend_file /home/YOUR_USERNAME/public_html/blocks.php
 ```
 
-Replace `YOUR_USERNAME` with your own cPanel username.
+Replace `YOUR_USERNAME` with your own cPanel username. You can find your exact path in cPanel → File Manager → navigate to public_html → the address bar shows your full path.
+
+4. Open your site in an incognito window — the drag-and-drop puzzle should appear immediately
 
 That's it. PHP SmartBlocker is now protecting every page on your site.
+
+## Managing Bans
+
+Banned IPs are stored in `blocked_ips.json` in your web root. This file is created automatically when the first ban occurs.
+
+**To clear all bans:**
+- Open cPanel → File Manager
+- Navigate to your web root
+- Delete `blocked_ips.json`
+- PHP will auto-create a fresh empty one on the next request
+
+**To remove a single IP ban:**
+- Open `blocked_ips.json` in File Manager editor
+- Find the IP entry and delete it
+- Make sure the JSON stays valid (no trailing commas)
+- Save the file
 
 ## License
 
