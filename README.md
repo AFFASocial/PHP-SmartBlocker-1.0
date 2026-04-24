@@ -4,7 +4,7 @@ Keep in mind I designed this to work with Sngine Social Network. This code will 
 register and post spam, So I suggest you website have new user approval, Posts approval or an option to make the site by invitation only whick Sngine Socual Network
 does all of this. The code was made due to the onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
 
-In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Heep in mind they the web is loaded with
+In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind they the web is loaded with
 click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is thos humans being paid to spam your
 website. An example you might get hundreds of fake visits per hour NONE WILL EVER GET THROUGHT except that 1% I would recomment every php website use this code period.
 
