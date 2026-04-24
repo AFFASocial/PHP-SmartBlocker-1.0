@@ -2,7 +2,7 @@
 
 Just download the PHP_SmartBlocker_1.0_Installation_Guide.html and then click the file and it should open in your browser follow the instructions and DONE.
 
-Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. ALso keep in mind that a real spammer "human" can solve the 
+Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Also keep in mind that a real spammer "human" can solve the 
 puzzle register and post spam, So I suggest you website have new user approval, posts approval or an option to make the site by invitation only whick Sngine Socual 
 Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
 
