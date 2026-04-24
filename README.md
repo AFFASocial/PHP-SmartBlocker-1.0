@@ -1,5 +1,7 @@
 # PHP SmartBlocker 1.0
 
+![PHP SmartBlocker](SB.png)
+
 Just download the .zip unzip the files and click on the PHP_SmartBlocker_1.0_Installation_Guide.html and it should open in your browser follow the instructions and DONE. You can copy the code snippets directly from the installation guide during the installation.
 
 Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Also keep in mind that a real spammer "human" can solve the 
