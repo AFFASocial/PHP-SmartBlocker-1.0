@@ -176,6 +176,22 @@ td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var
 
     <div class="step">
       <div class="snum">4</div>
+      <h3>Enable APCu in cPanel</h3>
+      <p>APCu is required for the 3-strike permanent IP ban counter in <code>verify_overlay.php</code>. Without it the puzzle still works but failed attempts won't be tracked.</p>
+      <div class="box info">&#x2139; <strong>How to enable APCu in cPanel:</strong><br><br>
+        1. Log into cPanel<br>
+        2. Go to <strong>Software</strong> &rarr; <strong>Select PHP Version</strong><br>
+        3. Make sure you are on the correct PHP version your site uses<br>
+        4. Click <strong>PHP Extensions</strong><br>
+        5. Find <strong>apcu</strong> in the list and check the box to enable it<br>
+        6. Click <strong>Save</strong><br><br>
+        If you do not see APCu in the list contact your hosting provider and ask them to enable the APCu PHP extension for your account.
+      </div>
+      <div class="box warn">&#x26A0; Make sure you enable APCu on the same PHP version your site is actually running. You can verify your PHP version in cPanel &rarr; Select PHP Version &rarr; the current version is shown at the top.</div>
+    </div>
+
+    <div class="step">
+      <div class="snum">5</div>
       <h3>Test the Installation</h3>
       <p>Open your website in an incognito/private window. You should immediately see the drag-and-drop puzzle.</p>
       <div class="two-col">
