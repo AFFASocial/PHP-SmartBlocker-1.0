@@ -4,9 +4,9 @@ PHP SmartBlocker 1.0 - Zero dependency bot protection with drag-and-drop CAPTCHA
 I originally created this code for "Sngine Social Network" but this code can be used
 on any PHP website.  For Sngine users thius is a must have for you hosted website.
 
-Just download the PHP_SmartBlocker_1.0_Installation_Guide.html then click it to open it in
-your browser, thenj ust follow the installation guide and in minutes you will competely block
-all bad attacks, scrapers, and unwanted visitors to your website.
+Just download the RAW file PHP_SmartBlocker_1.0_Installation_Guide.html then click it to
+open it in your browser, thenj ust follow the installation guide and in minutes you will
+competely block all bad attacks, scrapers, and unwanted visitors to your website.
 
 Universal protection:
 
