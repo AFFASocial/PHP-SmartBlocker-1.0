@@ -110,6 +110,7 @@ Banned IPs are stored in `blocked_ips.json` in your web root. This file is creat
 
 Free to use, modify and share.
 
+-
 ** Most common solutions and their weaknesses **
 
 
