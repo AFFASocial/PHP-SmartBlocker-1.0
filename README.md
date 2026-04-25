@@ -12,7 +12,7 @@ Network does all 3. The code was made due to the constant onslot of attacks Sngi
 
 In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind the web is loaded with
 click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is those humans being paid to spam your
-website. An example you might get hundreds of fake visits per hour none will every get through except that 1% human spammer. I would recommend every php website use this code period.
+website. An example you might get hundreds of fake visits per hour none will every get through except that 1% human spammer if registration is wide open. I would recommend every php website use this code period.  It just stops everything we do not want all the time 24/7.
 
 A lightweight, zero-dependency PHP bot protection system that stops scrapers, bots, and fake traffic dead in their tracks — all running locally on your server with no external APIs, no paid services, and zero ongoing cost.
 
