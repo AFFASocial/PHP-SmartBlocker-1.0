@@ -1,5 +1,4 @@
 <?php
-// require_once __DIR__ . '/template_watcher.php';
 /**
  * Bot/Scraper Block - blocks.php
  * No external API calls — all checks run locally with zero overhead.
@@ -10,7 +9,7 @@
  * 2. Whitelists legitimate search engine bots (Googlebot, DuckDuckBot etc.)
  * 3. Blocks known bad bots and scrapers by user agent string
  * 4. Blocks outdated Chrome versions used as bot fingerprints
- * 5. Math CAPTCHA challenge via verify_overlay.php for all human visitors
+ * 5. Drag-and-drop puzzle CAPTCHA via verify_overlay.php for all human visitors
  *
  * Logs BLOCKED and CAPTCHA events to alist.txt — one line per entry.
  * Add to .htaccess: php_value auto_prepend_file /home/affasoci/public_html/blocks.php
@@ -186,7 +185,7 @@ if (preg_match('/Chrome\/(\d+)\./', $userAgent, $matches)) {
 }
 
 // ---------------------------------------------------------------
-// 5. MATH CAPTCHA — challenge ALL visitors on first visit
+// 5. DRAG-AND-DROP PUZZLE CAPTCHA — challenge ALL visitors on first visit
 //    Once solved, the session + cookie lets them through freely.
 //    Skip AJAX endpoints so background requests don't get interrupted.
 // ---------------------------------------------------------------
