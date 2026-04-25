@@ -8,7 +8,7 @@ Just download the .zip unzip the files and click on the PHP_SmartBlocker_1.0_Ins
 
 Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Also keep in mind that a real spammer "human" can solve the 
 puzzle register and post spam, So I suggest your website have new user approval, posts approval or an option to make the site by invitation only whick Sngine Socual 
-Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Invitation Only enabled.
+Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Users Approval System built in to Sngine PHP Social Network now 100% Zero bad activity whatsoever.
 
 In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind the web is loaded with
 click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is those humans being paid to spam your
