@@ -82,7 +82,7 @@ td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var
 <div class="hero">
   <div class="badge">&#x1F6E1; PHP SmartBlocker 1.0</div>
   <h1 style="font-size:1.6rem;">PHP SmartBlocker Installation Guide <small style="font-size:0.85rem;color:var(--muted);font-weight:400;">v1.0</small></h1>
-  <p>PHP SmartBlocker is a zero-dependency PHP bot protection system featuring a drag-and-drop puzzle CAPTCHA, permanent IP banning, and automatic log rotation &mdash; all running locally on your server with no external APIs or paid services.</p>
+  <p>PHP SmartBlocker is a zero-dependency PHP bot protection system featuring a drag-and-drop puzzle CAPTCHA, automatic log rotation, and zero external dependencies &mdash; all running locally on your server with no external APIs or paid services.</p>
   <div class="pills">
     <span class="pill g">&#x2713; No API calls</span>
     <span class="pill g">&#x2713; No paid services</span>
@@ -99,7 +99,6 @@ td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var
   <table>
     <thead><tr><th>Step</th><th>Check</th><th>Action</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>Permanent IP ban list</td><td>Hard 403 &mdash; banned IPs rejected immediately</td></tr>
       <tr><td>1</td><td>Empty user agent</td><td>Hard 403 &mdash; no UA means definitely a bot</td></tr>
       <tr><td>2</td><td>Known good bots</td><td>Allow silently (Googlebot, Bingbot etc.)</td></tr>
       <tr><td>3</td><td>Known bad bot UAs</td><td>Hard 403 &mdash; curl, scrapy, selenium etc.</td></tr>
@@ -122,7 +121,7 @@ td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var
   <h2>Files Required</h2>
   <p>Upload both PHP files to the same directory as your website root.</p>
   <div class="file-cards">
-    <div class="file-card"><div class="fi">&#x2699;&#xFE0F;</div><div><div class="fn">blocks.php</div><div class="fd">Main bot blocker. Runs before every page via .htaccess auto-prepend. Handles all filtering, logging, CAPTCHA routing, and permanent IP bans.</div></div></div>
+    <div class="file-card"><div class="fi">&#x2699;&#xFE0F;</div><div><div class="fn">blocks.php</div><div class="fd">Main bot blocker. Runs before every page via .htaccess auto-prepend. Handles all filtering, logging, and CAPTCHA routing.</div></div></div>
     <div class="file-card"><div class="fi">&#x1F9E9;</div><div><div class="fn">verify_overlay.php</div><div class="fd">The drag-and-drop puzzle CAPTCHA page. 5 random landscape themes, random missing slot position. Bans IPs after 3 failed attempts. Sets 24-hour cookie on success.</div></div></div>
   </div>
   <div class="box info">&#x2139; <code>alist.txt</code> is created automatically on first run. You do not need to create them.</div>
@@ -210,7 +209,6 @@ td:first-child{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var
   <div class="code-header"><span class="code-filename">alist.txt &mdash; example entries</span></div>
   <div class="code-scroll"><pre>[2026-04-23 11:40:06] BLOCKED | BAD_UA:yandexbot | IP:5.255.231.195  | GET https://...
 [2026-04-23 11:39:27] CAPTCHA | CAPTCHA_ALL      | IP:61.170.53.35   | GET https://...
-[2026-04-23 11:40:06] BLOCKED | PERM_BAN         | IP:192.168.1.100  | GET https://...
 [2026-04-23 11:40:06] BLOCKED | OLD_CHROME:108   | IP:43.166.166.26  | GET https://...</pre></div>
 </div>
 </section>
