@@ -63,8 +63,7 @@ All blocked requests and CAPTCHA challenges are logged to alist.txt with full de
 ## Installation
 
 1. Upload both files to your website root directory
-2. Enable APCu in cPanel as described above
-3. Add this one line to your .htaccess file:
+2. Add this one line to your .htaccess file:
 
 ```
 php_value auto_prepend_file /home/YOUR_USERNAME/public_html/blocks.php
