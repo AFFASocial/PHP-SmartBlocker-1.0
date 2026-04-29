@@ -79,18 +79,6 @@ That's it. PHP SmartBlocker is now protecting every page on your site.
 
 Banned IPs are stored in `blocked_ips.json` in your web root. This file is created automatically when the first ban occurs.
 
-**To clear all bans:**
-- Open cPanel → File Manager
-- Navigate to your web root
-- Delete `blocked_ips.json`
-- PHP will auto-create a fresh empty one on the next request
-
-**To remove a single IP ban:**
-- Open `blocked_ips.json` in File Manager editor
-- Find the IP entry and delete it
-- Make sure the JSON stays valid (no trailing commas)
-- Save the file
-
 ## License
 
 Free to use, modify and share.
