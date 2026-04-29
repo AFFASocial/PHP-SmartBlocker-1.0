@@ -21,35 +21,9 @@ function overlay_get_ip() {
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
-// --- Helper: permanently ban IP into blocked_ips.json ---
-function overlay_ban_ip($ip, $reason) {
-    $file    = __DIR__ . '/blocked_ips.json';
-    $blocked = [];
-    if (file_exists($file)) {
-        $blocked = json_decode(file_get_contents($file), true) ?: [];
-    }
-    $blocked[$ip] = [
-        'blocked_at' => date('Y-m-d H:i:s'),
-        'reason'     => $reason,
-        'uri'        => $_SERVER['REQUEST_URI'] ?? '',
-    ];
-    file_put_contents($file, json_encode($blocked, JSON_PRETTY_PRINT), LOCK_EX);
-}
 
 $visitor_ip   = overlay_get_ip();
-$max_attempts = 3;
 
-// --- APCu fail counter ---
-function overlay_get_fails($ip) {
-    $val = apcu_fetch("captcha_fails:{$ip}");
-    return $val === false ? 0 : (int)$val;
-}
-function overlay_set_fails($ip, $count) {
-    apcu_store("captcha_fails:{$ip}", $count, 86400);
-}
-function overlay_clear_fails($ip) {
-    apcu_delete("captcha_fails:{$ip}");
-}
 
 // --- Generate puzzle config if not set ---
 // Puzzle: a 300x150 image split into 3 columns, user drags the missing piece into the correct slot
@@ -65,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['puzzle_answer'])) {
     $expected  = isset($_SESSION['puzzle_slot']) ? intval($_SESSION['puzzle_slot']) : -1;
 
     if ($expected !== -1 && $submitted === $expected) {
-        overlay_clear_fails($visitor_ip);
         unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme'], $_SESSION['already_logged']);
 
         $_SESSION['verified_human'] = true;
@@ -96,20 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['puzzle_answer'])) {
         exit;
 
     } else {
-        $current_fails = overlay_get_fails($visitor_ip) + 1;
-        overlay_set_fails($visitor_ip, $current_fails);
-        $fails_left = $max_attempts - $current_fails;
-
-        if ($current_fails >= $max_attempts) {
-            overlay_ban_ip($visitor_ip, "CAPTCHA: Failed $max_attempts times");
-            header('HTTP/1.1 403 Forbidden');
-            die("<h2 style='font-family:sans-serif;text-align:center;margin-top:20%;color:#c0392b'>
-                 🚫 Access Denied<br>
-                 <small style='color:#666;font-size:0.8rem'>Too many failed verification attempts.</small>
-                 </h2>");
-        }
-
-        $error = "Incorrect. " . $fails_left . " attempt" . ($fails_left === 1 ? '' : 's') . " remaining.";
+        // Wrong answer — reset puzzle
+        $error = "Incorrect — please try again.";
         unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme']);
         $_SESSION['puzzle_slot']  = rand(0, 2);
         $_SESSION['puzzle_theme'] = rand(0, 4);
