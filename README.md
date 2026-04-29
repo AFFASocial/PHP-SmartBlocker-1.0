@@ -75,10 +75,6 @@ Replace `YOUR_USERNAME` with your own cPanel username. You can find your exact p
 
 That's it. PHP SmartBlocker is now protecting every page on your site.
 
-## Managing Bans
-
-Banned IPs are stored in `blocked_ips.json` in your web root. This file is created automatically when the first ban occurs.
-
 ## License
 
 Free to use, modify and share.
