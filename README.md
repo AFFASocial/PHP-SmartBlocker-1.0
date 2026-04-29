@@ -52,24 +52,8 @@ All blocked requests and CAPTCHA challenges are logged to alist.txt with full de
 
 - PHP 7.4 or higher
 - Apache with .htaccess support
-- APCu PHP extension enabled (see instructions below)
 - Two files uploaded to your web root
 - One line added to .htaccess
-
-## Enabling APCu in cPanel
-
-APCu is required for the 3-strike permanent IP ban counter. Without it the puzzle still works but failed attempts won't be tracked per IP.
-
-1. Log into cPanel
-2. Go to Software → Select PHP Version
-3. Make sure you are on the correct PHP version your site uses
-4. Click PHP Extensions
-5. Find apcu in the list and check the box to enable it
-6. Click Save
-
-If you do not see APCu in the list contact your hosting provider and ask them to enable the APCu PHP extension for your account.
-
-> **Note:** Make sure you enable APCu on the same PHP version your site is actually running. You can verify your PHP version in cPanel → Select PHP Version → the current version is shown at the top.
 
 ## Files
 
