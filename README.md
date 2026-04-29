@@ -80,7 +80,7 @@ That's it. PHP SmartBlocker is now protecting every page on your site.
 Free to use, modify and share.
 ______________________________
 
-** Most common solutions and their weaknesses **
+<b>** Most common solutions and their weaknesses **</b>
 
 
 - **Cloudflare** — effective but you're dependent on a third party, costs money at scale, and can have false positives
