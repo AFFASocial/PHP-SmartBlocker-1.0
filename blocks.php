@@ -3,7 +3,6 @@
  * Bot/Scraper Block - blocks.php
  * No external API calls — all checks run locally with zero overhead.
  *
- * 0. Permanent IP ban check against blocked_ips.json
  * S. Secret token bypass for trusted tools (autoposter etc.)
  * 1. Blocks empty / missing user agents
  * 2. Whitelists legitimate search engine bots (Googlebot, DuckDuckBot etc.)
@@ -97,22 +96,6 @@ if (($_SERVER['HTTP_X_AUTOPOSTER_TOKEN'] ?? '') === $secretToken) {
 // ---------------------------------------------------------------
 $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $visitorIp = $_SERVER['REMOTE_ADDR']     ?? '0.0.0.0';
-
-// ---------------------------------------------------------------
-// 0. PERMANENT IP BAN — check blocked_ips.json first
-//    IPs land here after failing the puzzle 3 times.
-//    Checked before anything else — zero processing wasted on banned IPs.
-// ---------------------------------------------------------------
-$bannedFile = '/home/affasoci/public_html/blocked_ips.json';
-if (file_exists($bannedFile)) {
-    $bannedList = json_decode(file_get_contents($bannedFile), true) ?: [];
-    if (isset($bannedList[$visitorIp])) {
-        writelog($logFile, 'BLOCKED', 'PERM_BAN', $visitorIp);
-        http_response_code(403);
-        echo '<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Access Denied.</p></body></html>';
-        exit;
-    }
-}
 
 // ---------------------------------------------------------------
 // 1. BLOCK MISSING / EMPTY USER-AGENTS
