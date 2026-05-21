@@ -1,18 +1,14 @@
 # PHP SmartBlocker 1.0
 
-![PHP SmartBlocker](SB.png)
+[![PHP SmartBlocker](https://github.com/AFFASocial/PHP-SmartBlocker-1.0/raw/main/SB.png)](https://github.com/AFFASocial/PHP-SmartBlocker-1.0/blob/main/SB.png)
 
 "Real users only"
 
 Just download the .zip unzip the files and click on the PHP_SmartBlocker_1.0_Installation_Guide.html and it should open in your browser follow the instructions and DONE. You can copy the code snippets directly from the installation guide during the installation.
 
-Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Also keep in mind that a real spammer "human" can solve the 
-puzzle register and post spam, So I suggest your website have new user approval, posts approval or an option to make the site by invitation only which Sngine Socual 
-Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Users Approval System built in to Sngine PHP Social Network now 100% Zero bad activity whatsoever.
+Keep in mind I designed this to work with Sngine Social Network. This code will work on any PHP website. Also keep in mind that a real spammer "human" can solve the puzzle register and post spam, So I suggest your website have new user approval, posts approval or an option to make the site by invitation only which Sngine Social Network does all 3. The code was made due to the constant onslot of attacks Sngine Social Network is hit with 24/7. In my case I use this code along with Users Approval System built in to Sngine PHP Social Network now 100% Zero bad activity whatsoever.
 
-In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind the web is loaded with
-click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is those humans being paid to spam your
-website. An example you might get hundreds of fake visits per hour none will every get through except that 1% human spammer if registration is wide open. I would recommend every php website use this code period.  It just stops everything we do not want all the time 24/7.
+In any case on a normal PHP website with registration enabled this will stop every automated attack and registration period. Keep in mind the web is loaded with click farms where a user is paid pennies to create a spam account on your server. BASICALLY you can say 99% is all stopped that 1% is those humans being paid to spam your website. An example you might get hundreds of fake visits per hour none will every get through except that 1% human spammer if registration is wide open. I would recommend every php website use this code period. It just stops everything we do not want all the time 24/7.
 
 A lightweight, zero-dependency PHP bot protection system that stops scrapers, bots, and fake traffic dead in their tracks — all running locally on your server with no external APIs, no paid services, and zero ongoing cost.
 
@@ -24,7 +20,6 @@ PHP SmartBlocker runs as a PHP auto-prepend file, executing before every single 
 - Known legitimate search bots like Googlebot, Bingbot and DuckDuckBot are whitelisted and pass through freely — your SEO is completely unaffected
 - Known scraper and bot tools like curl, wget, scrapy, selenium, puppeteer and hundreds more are hard blocked with a 403
 - Outdated Chrome versions below 110 used as bot fingerprints are hard blocked
-- Any IP previously permanently banned is hard blocked immediately
 - Every other visitor is presented with a drag-and-drop puzzle CAPTCHA they must solve before accessing any page
 
 ## The Puzzle CAPTCHA
@@ -33,7 +28,7 @@ A randomly generated landscape image is split into three columns with one piece 
 
 ## After Solving
 
-A 24-hour cookie is set so real visitors only see the puzzle once per day. Three failed attempts results in a permanent IP ban written to blocked_ips.json — banned IPs are rejected before any other processing on future visits.
+A 24-hour cookie is set so real visitors only see the puzzle once per day.
 
 ## Logging
 
@@ -71,17 +66,17 @@ php_value auto_prepend_file /home/YOUR_USERNAME/public_html/blocks.php
 
 Replace `YOUR_USERNAME` with your own cPanel username. You can find your exact path in cPanel → File Manager → navigate to public_html → the address bar shows your full path.
 
-4. Open your site in an incognito window — the drag-and-drop puzzle should appear immediately
+3. Open your site in an incognito window — the drag-and-drop puzzle should appear immediately
 
 That's it. PHP SmartBlocker is now protecting every page on your site.
 
 ## License
 
 Free to use, modify and share.
-______________________________
 
-<b>** Most common solutions and their weaknesses **</b>
+---
 
+**** Most common solutions and their weaknesses ****
 
 - **Cloudflare** — effective but you're dependent on a third party, costs money at scale, and can have false positives
 - **Fail2ban** — server level, requires root access, not available on shared hosting
