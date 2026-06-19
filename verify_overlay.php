@@ -9,71 +9,112 @@ $error    = '';
 $verified = false;
 
 // --- Helper: get real visitor IP ---
-function overlay_get_ip() {
-    foreach (['HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR'] as $k) {
-        if (!empty($_SERVER[$k])) {
-            $ip = trim(explode(',', $_SERVER[$k])[0]);
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                return $ip;
-            }
-        }
-    }
+// Uses REMOTE_ADDR only — consistent with blocks.php (not behind Cloudflare/proxy)
+function overlay_get_ip(): string {
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
+$visitor_ip = overlay_get_ip();
 
-$visitor_ip   = overlay_get_ip();
+// ---------------------------------------------------------------
+// RATE LIMITING — lock out after 5 wrong answers for 60 seconds
+// ---------------------------------------------------------------
+$now          = time();
+$fail_count   = (int) ($_SESSION['captcha_fails']      ?? 0);
+$fail_time    = (int) ($_SESSION['captcha_fail_time']  ?? 0);
+$locked_until = (int) ($_SESSION['captcha_locked_until'] ?? 0);
 
+if ($locked_until > $now) {
+    $wait = $locked_until - $now;
+    $error = "Too many incorrect attempts. Please wait {$wait} second" . ($wait === 1 ? '' : 's') . " and try again.";
+    // Reset puzzle so a fresh one is shown when lockout expires
+    unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme']);
+}
 
 // --- Generate puzzle config if not set ---
-// Puzzle: a 300x150 image split into 3 columns, user drags the missing piece into the correct slot
+// Puzzle: image split into 3 columns, user drags the missing piece into the correct slot
 // We store the correct slot index (0,1,2) server-side
 if (!isset($_SESSION['puzzle_slot'])) {
     $_SESSION['puzzle_slot']  = rand(0, 2); // which of the 3 slots is the missing piece
     $_SESSION['puzzle_theme'] = rand(0, 4); // which visual theme/pattern
 }
 
+// --- CSRF token ---
+if (empty($_SESSION['captcha_csrf'])) {
+    $_SESSION['captcha_csrf'] = bin2hex(random_bytes(16));
+}
+
 // --- Handle CAPTCHA submission ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['puzzle_answer'])) {
-    $submitted = intval($_POST['puzzle_answer']);
-    $expected  = isset($_SESSION['puzzle_slot']) ? intval($_SESSION['puzzle_slot']) : -1;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['puzzle_answer']) && empty($error)) {
 
-    if ($expected !== -1 && $submitted === $expected) {
-        unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme'], $_SESSION['already_logged']);
-
-        $_SESSION['verified_human'] = true;
-        $_SESSION['verified_ip']    = $visitor_ip;
-
-        $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-                    || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https'
-                    || ($_SERVER['SERVER_PORT'] ?? '') === '443';
-
-        setcookie('human_ticket', 'verified', [
-            'expires'  => time() + 86400,
-            'path'     => '/',
-            'httponly' => true,
-            'secure'   => $is_https,
-            'samesite' => 'Lax',
-        ]);
-        setcookie('human_ticket_mobile', 'verified', [
-            'expires'  => time() + 86400,
-            'path'     => '/',
-            'httponly' => false,
-            'secure'   => $is_https,
-            'samesite' => 'Lax',
-        ]);
-
-        $redirect = htmlspecialchars($_SESSION['blocked_uri'] ?? '/', ENT_QUOTES, 'UTF-8');
-        unset($_SESSION['blocked_uri']);
-        header("Refresh: 0; url=" . $redirect);
-        exit;
-
+    // CSRF check
+    $submitted_csrf = $_POST['captcha_csrf'] ?? '';
+    if (!hash_equals($_SESSION['captcha_csrf'], $submitted_csrf)) {
+        $error = "Security token mismatch — please refresh and try again.";
     } else {
-        // Wrong answer — reset puzzle
-        $error = "Incorrect — please try again.";
-        unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme']);
-        $_SESSION['puzzle_slot']  = rand(0, 2);
-        $_SESSION['puzzle_theme'] = rand(0, 4);
+        $submitted = intval($_POST['puzzle_answer']);
+        $expected  = isset($_SESSION['puzzle_slot']) ? intval($_SESSION['puzzle_slot']) : -1;
+
+        if ($expected !== -1 && $submitted === $expected) {
+            // Correct — clear all CAPTCHA session state
+            unset(
+                $_SESSION['puzzle_slot'],
+                $_SESSION['puzzle_theme'],
+                $_SESSION['already_logged'],
+                $_SESSION['captcha_csrf'],
+                $_SESSION['captcha_fails'],
+                $_SESSION['captcha_fail_time'],
+                $_SESSION['captcha_locked_until']
+            );
+
+            $_SESSION['verified_human'] = true;
+            $_SESSION['verified_ip']    = $visitor_ip;
+
+            $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                        || ($_SERVER['SERVER_PORT'] ?? '') === '443';
+
+            setcookie('human_ticket', 'verified', [
+                'expires'  => time() + 86400,
+                'path'     => '/',
+                'httponly' => true,
+                'secure'   => $is_https,
+                'samesite' => 'Lax',
+            ]);
+            setcookie('human_ticket_mobile', 'verified', [
+                'expires'  => time() + 86400,
+                'path'     => '/',
+                'httponly' => false,
+                'secure'   => $is_https,
+                'samesite' => 'Lax',
+            ]);
+
+            $redirect = htmlspecialchars($_SESSION['blocked_uri'] ?? '/', ENT_QUOTES, 'UTF-8');
+            unset($_SESSION['blocked_uri']);
+            header("Refresh: 0; url=" . $redirect);
+            exit;
+
+        } else {
+            // Wrong answer — increment fail counter
+            $fail_count++;
+            $_SESSION['captcha_fails']     = $fail_count;
+            $_SESSION['captcha_fail_time'] = $now;
+
+            if ($fail_count >= 5) {
+                $_SESSION['captcha_locked_until'] = $now + 60;
+                $_SESSION['captcha_fails']        = 0;
+                $error = "Too many incorrect attempts. Please wait 60 seconds and try again.";
+            } else {
+                $remaining = 5 - $fail_count;
+                $error = "Incorrect — please try again. ({$remaining} attempt" . ($remaining === 1 ? '' : 's') . " remaining)";
+            }
+
+            // Reset puzzle to a fresh random one
+            unset($_SESSION['puzzle_slot'], $_SESSION['puzzle_theme']);
+            $_SESSION['puzzle_slot']  = rand(0, 2);
+            $_SESSION['puzzle_theme'] = rand(0, 4);
+            // Regenerate CSRF token
+            $_SESSION['captcha_csrf'] = bin2hex(random_bytes(16));
+        }
     }
 }
 
@@ -81,15 +122,15 @@ if (empty($_SESSION['blocked_uri'])) {
     $_SESSION['blocked_uri'] = $_SERVER['REQUEST_URI'] ?? '/';
 }
 
-$correctSlot  = (int) $_SESSION['puzzle_slot'];
-$puzzleTheme  = (int) $_SESSION['puzzle_theme'];
+$correctSlot = (int) $_SESSION['puzzle_slot'];
+$puzzleTheme = (int) $_SESSION['puzzle_theme'];
+$csrfToken   = $_SESSION['captcha_csrf'];
 
-// Puzzle themes — each is a set of SVG shapes/colors that make a recognizable image
-// The missing piece slot is cut out and shown separately for dragging
+// Puzzle themes — each is a set of colors that make a recognizable landscape image
 $themes = [
-    // 0: Sunset landscape
+    // 0: Night sky
     ['bg' => '#1a1a2e', 'name' => 'night sky', 'accent' => '#e94560'],
-    // 1: Ocean waves
+    // 1: Ocean
     ['bg' => '#0f3460', 'name' => 'ocean', 'accent' => '#16213e'],
     // 2: Forest
     ['bg' => '#1b4332', 'name' => 'forest', 'accent' => '#40916c'],
@@ -365,6 +406,7 @@ $theme = $themes[$puzzleTheme];
 
     <form method="POST" action="" id="verify-form">
         <input type="hidden" name="puzzle_answer" id="puzzleAnswer" value="">
+        <input type="hidden" name="captcha_csrf" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
     </form>
 
     <p class="footer-note">This check protects the site from automated bots.</p>
