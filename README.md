@@ -1,6 +1,6 @@
 # PHP SmartBlocker 1.1
 
-https://github.com/AFFASocial/PHP-SmartBlocker-1.0/blob/main/SB.png
+[![PHP SmartBlocker](https://github.com/AFFASocial/PHP-SmartBlocker-1.0/raw/main/SB.png)](https://github.com/AFFASocial/PHP-SmartBlocker-1.0/blob/main/SB.png)
 
 "Real users only"
 
